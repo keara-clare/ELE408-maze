@@ -357,8 +357,8 @@ def write_score(Points):
 		print('you are replacing the score', replacementScore)
 		toFile = raw_input("What is your name?")
 		print('Great job,', toFile, '!')
-
 	#Update the high score array
+		previousHighScores=highScores[:]
 		decrementer = 4	#loop backwards so you don't overwrite
 		count = 4 - place
 		
@@ -368,9 +368,11 @@ def write_score(Points):
 			count -= 1
 			decrementer -= 1
 		highScores[place] = Points
-		print(highScores)
-
+		updatedHighScores=highScores[:]
+		print(updatedHighScores)
 	#Update the names of high scorers array
+		previousHighScorers = highScorers[:]
+		print('the previous high scores are', previousHighScorers)
 		decrementer = 4	#loop backwards so you don't overwrite
 		count = 4 - place
 		
@@ -380,45 +382,49 @@ def write_score(Points):
 			count -= 1
 			decrementer -= 1
 		highScorers[place] = toFile
-		print(highScorers)
-
+		updatedHighScorers = highScorers[:]
+		print('the updated high scorers', updatedHighScorers)
 		updatesRequired = 5-place
 	#open the file and update the new high score
-		count = updatesRequired
-		placeCopy = place
+		count = 5
+		index = 0
 		
 		while(count > 0):
 			print('loop taken')
-			print('placeCopy =', placeCopy)
+			print('index =', index)
 			with open(completeName,'r+') as myFile:
     				#convert to string:
     				data = myFile.read()
     				myFile.seek(0)
-				replacementScore = str(highScores[placeCopy])
+				replacementScore = str(previousHighScores[index])
+				replacementScore = "<b>"+ replacementScore + "</b>" #so you don't overwrite part of a score
 				print(replacementScore)
-				newScore = str(highScores[placeCopy-1])
+				newScore = str(updatedHighScores[index])
+				newScore = "<b>"+ newScore + "</b>" 
 				print(newScore)
 				myFile.write(re.sub(replacementScore,newScore,data,1))
                         	myFile.truncate()
-			placeCopy += 1
+			index += 1
 			count -= 1
          #open the file and update the new high scorer's name
-		count = updatesRequired
-		placeCopy = place
+		count = 5
+		index = 0
 		while(count > 0):
 			print('loop taken')
-			print('placeCopy =', placeCopy)
+			print('index =', index)
 			with open(completeName,'r+') as myFile:
     				#convert to string:
     				data = myFile.read()
     				myFile.seek(0)
-				replacementName = str(highScorers[placeCopy])
+				replacementName = str(previousHighScorers[index])
+				replacementName = "<b>"+ replacementName + "</b>"
 				print(replacementName)
-				toFile = str(highScorers[placeCopy-1])
+				toFile = str(updatedHighScorers[index])
+				toFile = "<b>"+ toFile + "</b>"
 				print(toFile)
 				myFile.write(re.sub(replacementName,toFile,data,1))
                         	myFile.truncate()
-			placeCopy += 1
+			index += 1
 			count -= 1
 
 
@@ -615,6 +621,7 @@ def game(player, end_rect):
           Play = False
           Win = True
           Lose = False
+#Keara update
         elif Level == 4:
           Level = 5
           del walls[:]
@@ -634,6 +641,7 @@ def game(player, end_rect):
                   x += 16
               y += 16
               x = 0
+#keara update
         elif Level == 3:
           print("Level = ", Level)
           Level = 4
